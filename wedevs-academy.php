@@ -69,22 +69,22 @@
      * @return void
      */
     public function init_plugin() {
-        new WeDevs\Academy\Admin\Menu();
+        if(is_admin()) {
+            new WeDevs\Academy\Admin();
+        }else{
+            new WeDevs\Academy\Frontend();
+        }
     }
 
 
     /**
-     * Do stuff upn plugin activation
+     * Do stuff upon plugin activation
      * 
      * @return void
      */
     public function activate() {
-        $installed = get_option( 'wd_academy_installed' );
-
-        if ( ! $installed ) {
-            update_option( 'wd_academy_installed', time() );
-        }
-        update_option( 'wd_academy_version', WD_ACADEMY_VERSION );
+        $installer = new WeDevs\Academy\Installer();
+        $installer->run();
     }
   }
 
